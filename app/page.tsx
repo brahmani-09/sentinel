@@ -267,10 +267,14 @@ export default function Home() {
 
 function Landing({ onStart, onExplore }: { onStart: () => void; onExplore: () => void }) {
   const nodes = [
-    { x: 14, y: 49, label: 'CRM', kind: 'base' }, { x: 37, y: 25, label: 'LOOKUP', kind: 'signal' },
-    { x: 62, y: 49, label: 'WAIT', kind: 'alert' }, { x: 37, y: 76, label: 'EMAIL', kind: 'signal' },
-    { x: 86, y: 49, label: 'RESOLVE', kind: 'base' },
+    { x: 14, y: 49, label: 'CRM', kind: 'base', detail: 'A case enters the system of record.' },
+    { x: 37, y: 25, label: 'LOOKUP', kind: 'signal', detail: 'An employee searches across disconnected tools.' },
+    { x: 62, y: 49, label: 'WAIT', kind: 'alert', detail: 'A hidden delay forms between system handoffs.' },
+    { x: 37, y: 76, label: 'EMAIL', kind: 'signal', detail: 'Context moves through an untracked side channel.' },
+    { x: 86, y: 49, label: 'RESOLVE', kind: 'base', detail: 'The customer receives a resolution.' },
   ]
+  const [activeNode, setActiveNode] = useState('WAIT')
+  const selectedNode = nodes.find((node) => node.label === activeNode) ?? nodes[2]
   return (
     <main className="landing-shell">
       <div className="landing-grid" aria-hidden="true" /><div className="landing-glow" aria-hidden="true" />
@@ -287,16 +291,17 @@ function Landing({ onStart, onExplore }: { onStart: () => void; onExplore: () =>
           <div className="hero-actions"><button className="primary-button hero-cta" onClick={onStart}>INITIATE INVESTIGATION <ArrowRight size={15} /></button><button className="text-button" onClick={onExplore}><span className="play-mark">▶</span> EXPLORE SAMPLE INVESTIGATION</button></div>
           <div className="hero-assurance"><ShieldCheck size={13} /><span>LOCAL ANALYSIS</span><i /><span>NO API KEY REQUIRED</span><i /><span>TRACEABLE EVIDENCE</span></div>
         </div>
-        <div className="hero-visual">
-          <div className="visual-topline"><span><i /> LIVE WORKFLOW TRACE</span><span>CASE / 01842</span></div>
-          <div className="hero-map"><div className="map-grid" />
-            <svg className="map-lines" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path d="M14 49 L37 25 L62 49 L86 49 M14 49 L37 76 L62 49" /><path className="path-active" d="M14 49 L37 25 L62 49 L86 49" /><path className="path-dash" d="M14 49 L37 76 L62 49" /></svg>
-            {nodes.map((node) => <div key={node.label} className={`hero-node hero-node-${node.kind}`} style={{ left: `${node.x}%`, top: `${node.y}%` }}><span>{node.kind === 'alert' ? <Clock3 size={12} /> : node.kind === 'signal' ? <Search size={12} /> : <Layers3 size={12} />}</span><b>{node.label}</b></div>)}
-            <div className="scan-beam" /><div className="map-coord coord-one">OBSERVED / 07 STEPS</div><div className="map-coord coord-two">EVENT TRACE · LOCAL</div>
+          <div className="hero-visual">
+            <div className="visual-topline"><span><i /> LIVE WORKFLOW TRACE</span><span>CASE / 01842</span></div>
+            <div className="hero-map"><div className="map-grid" />
+              <svg className="map-lines" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path d="M14 49 L37 25 L62 49 L86 49 M14 49 L37 76 L62 49" /><path className="path-active" d="M14 49 L37 25 L62 49 L86 49" /><path className="path-dash" d="M14 49 L37 76 L62 49" /><circle className="flow-particle" r="1.15"><animateMotion dur="5.6s" repeatCount="indefinite" path="M14 49 L37 25 L62 49 L86 49" /></circle><circle className="flow-particle flow-particle-alt" r=".8"><animateMotion dur="7.2s" begin="-3s" repeatCount="indefinite" path="M14 49 L37 76 L62 49" /></circle></svg>
+              {nodes.map((node) => <button type="button" key={node.label} className={`hero-node hero-node-${node.kind} ${activeNode === node.label ? 'hero-node-active' : ''}`} style={{ left: `${node.x}%`, top: `${node.y}%` }} onClick={() => setActiveNode(node.label)} aria-pressed={activeNode === node.label} aria-label={`Inspect ${node.label}: ${node.detail}`}><span>{node.kind === 'alert' ? <Clock3 size={12} /> : node.kind === 'signal' ? <Search size={12} /> : <Layers3 size={12} />}</span><b>{node.label}</b></button>)}
+              <div className="scan-beam" /><div className="map-coord coord-one">OBSERVED / 07 STEPS</div><div className="map-coord coord-two">EVENT TRACE · LOCAL</div>
+            </div>
+            <div className="visual-foot"><span><i className="legend-dot cyan" /> RECORDED ACTIVITY</span><span><i className="legend-dot violet" /> INVISIBLE WORK</span><span>MODE <b>INVESTIGATE</b></span></div>
+            <div className="hero-callout" aria-live="polite"><span><Sparkles size={14} /></span><div><small>LIVE SIGNAL / {selectedNode.label}</small><strong>{selectedNode.detail}</strong></div><ChevronRight size={14} /></div>
           </div>
-          <div className="visual-foot"><span><i className="legend-dot cyan" /> RECORDED ACTIVITY</span><span><i className="legend-dot violet" /> INVISIBLE WORK</span><span>MODE <b>INVESTIGATE</b></span></div>
-          <div className="hero-callout"><span><Sparkles size={14} /></span><div><small>ENGINE CAPABILITY</small><strong>Evidence-linked workflow discovery</strong></div><ChevronRight size={14} /></div>
-        </div>
+
       </section>
       <section className="landing-bottom" id="method">
         <div className="landing-bottom-label">ONE ENGINE. EVERY WORKFLOW.</div>

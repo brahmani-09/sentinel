@@ -4,7 +4,7 @@ import './globals.css'
 
 export const metadata: Metadata = {
   title: 'SENTINEL — Invisible Work Intelligence',
-  description: 'Investigate hidden workflow friction, trace evidence, and model operational interventions with local, transparent analysis.',
+  description: 'Reveal how hidden work moves through your organization. Trace workflow evidence, surface friction, and model operational interventions with local, transparent analysis.',
   applicationName: 'SENTINEL',
   generator: 'v0.app',
   icons: {
