@@ -146,8 +146,8 @@ function unique(values: (string | undefined)[]) {
 }
 
 export function getDatasetStats(events: EventRecord[]): DatasetStats {
-  const timestamps = events.map((event) => event.timestamp).filter((value): value is string => Boolean(value) && !Number.isNaN(Date.parse(value))).sort()
-  const durations = events.map((event) => event.duration_minutes).filter((value): value is number => Number.isFinite(value) && value >= 0)
+  const timestamps = events.map((event) => event.timestamp).filter((value): value is string => Boolean(value && !Number.isNaN(Date.parse(value)))).sort()
+  const durations = events.map((event) => event.duration_minutes).filter((value): value is number => value !== undefined && Number.isFinite(value) && value >= 0)
   return {
     rows: events.length,
     cases: unique(events.map((event) => event.case_id)),
@@ -325,7 +325,7 @@ export function analyzeEvents(events: EventRecord[], scenario: ScenarioId, title
   }
   const workflow = [...actionMap.entries()].map(([action, value]) => {
     const lower = action.toLowerCase()
-    const kind = /wait|pending|await|hold/.test(lower) ? "wait" : /contact|route|handoff|forward|assign|approval/.test(lower) ? "handoff" : /open|check customer|resolve|close request|close reconciliation/.test(lower) ? "expected" : "observed"
+    const kind: AnalysisResult["workflow"][number]["kind"] = /wait|pending|await|hold/.test(lower) ? "wait" : /contact|route|handoff|forward|assign|approval/.test(lower) ? "handoff" : /open|check customer|resolve|close request|close reconciliation/.test(lower) ? "expected" : "observed"
     const minutes = value.events.map((event) => event.duration_minutes ?? 0).reduce((sum, value) => sum + value, 0) / Math.max(value.cases.size, 1)
     return { action, count: value.events.length, systems: [...new Set(value.events.map((event) => event.system).filter((value): value is string => Boolean(value)))], cases: value.cases.size, minutes, kind }
   }).sort((a, b) => {

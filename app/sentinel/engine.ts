@@ -90,7 +90,7 @@ const aliases: Record<string, string[]> = {
   action: ['action', 'activity', 'task_name', 'event', 'step'], system: ['system', 'application', 'tool', 'app'],
   status: ['status', 'state', 'outcome'], durationMinutes: ['duration_minutes', 'duration', 'minutes', 'elapsed_minutes'],
 }
-const normalizeHeader = (header: string) => header.trim().toLowerCase().replace(/[\s-]+/g, '_')
+const normalizeHeader = (header: string) => header.replace(/^\uFEFF/, '').trim().toLowerCase().replace(/[\s-]+/g, '_')
 
 export function parseCsv(text: string): { events: EventRecord[]; mappings: string[]; headers: string[] } {
   const rows: string[][] = []
@@ -107,6 +107,7 @@ export function parseCsv(text: string): { events: EventRecord[]; mappings: strin
     else cell += char
   }
   if (cell.length || row.length) { row.push(cell.replace(/\r$/, '')); rows.push(row) }
+  if (quoted) throw new Error('The CSV contains an unclosed quoted field. Check the file and try again.')
   const headers = rows.shift()?.map(normalizeHeader) ?? []
   if (!headers.length || !rows.length) throw new Error('The CSV needs a header row and at least one data row.')
   const indexes: Partial<Record<keyof typeof aliases, number>> = {}
@@ -120,7 +121,7 @@ export function parseCsv(text: string): { events: EventRecord[]; mappings: strin
   const events = rows.filter((cells) => cells.some((value) => value.trim())).map((cells, index) => {
     const get = (field: keyof typeof aliases) => { const at = indexes[field]; return at === undefined ? '' : (cells[at] ?? '').trim() }
     const durationValue = Number(get('durationMinutes'))
-    return { caseId: get('caseId') || `ROW-${index + 1}`, action: get('action'), ...(get('timestamp') ? { timestamp: get('timestamp') } : {}), ...(get('employeeId') ? { employeeId: get('employeeId') } : {}), ...(get('department') ? { department: get('department') } : {}), ...(get('system') ? { system: get('system') } : {}), ...(get('status') ? { status: get('status') } : {}), ...(Number.isFinite(durationValue) && get('durationMinutes') ? { durationMinutes: durationValue } : {}) }
+    return { caseId: get('caseId') || `ROW-${index + 1}`, action: get('action'), ...(get('timestamp') ? { timestamp: get('timestamp') } : {}), ...(get('employeeId') ? { employeeId: get('employeeId') } : {}), ...(get('department') ? { department: get('department') } : {}), ...(get('system') ? { system: get('system') } : {}), ...(get('status') ? { status: get('status') } : {}), ...(Number.isFinite(durationValue) && durationValue >= 0 && get('durationMinutes') ? { durationMinutes: durationValue } : {}) }
   }).filter((event) => event.action)
   if (!events.length) throw new Error('No usable event records were found. Check that activity values are populated.')
   return { events, mappings, headers }
