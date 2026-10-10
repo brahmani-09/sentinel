@@ -3,9 +3,9 @@ import type { Metadata, Viewport } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'SENTINEL — Invisible Work Intelligence',
+  title: 'BlindSpot — Invisible Work Intelligence',
   description: 'Reveal how hidden work moves through your organization. Trace workflow evidence, surface friction, and model operational interventions with local, transparent analysis.',
-  applicationName: 'SENTINEL',
+  applicationName: 'BlindSpot',
   generator: 'v0.app',
   icons: {
     icon: [

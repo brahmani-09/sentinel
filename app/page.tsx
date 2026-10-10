@@ -183,9 +183,9 @@ export default function Home() {
       <div className="ambient ambient-one" aria-hidden="true" />
       <div className="ambient ambient-two" aria-hidden="true" />
       <header className="topbar">
-        <button className="brand-lockup" onClick={() => setScreen('welcome')} aria-label="SENTINEL home">
+        <button className="brand-lockup" onClick={() => setScreen('welcome')} aria-label="BlindSpot home">
           <span className="brand-mark"><ScanLine size={18} /></span>
-          <span className="brand-wordmark">SENTINEL<span>INVISIBLE WORK INTELLIGENCE</span></span>
+          <span className="brand-wordmark">BlindSpot<span>INVISIBLE WORK INTELLIGENCE</span></span>
         </button>
         <div className="topbar-context">
           <span className="context-label">ACTIVE INVESTIGATION</span>
@@ -279,7 +279,7 @@ function Landing({ onStart, onExplore }: { onStart: () => void; onExplore: () =>
     <main className="landing-shell">
       <div className="landing-grid" aria-hidden="true" /><div className="landing-glow" aria-hidden="true" />
       <header className="landing-header">
-        <a className="brand-lockup" href="#top"><span className="brand-mark"><ScanLine size={18} /></span><span className="brand-wordmark">SENTINEL<span>INVISIBLE WORK INTELLIGENCE</span></span></a>
+        <a className="brand-lockup" href="#top"><span className="brand-mark"><ScanLine size={18} /></span><span className="brand-wordmark">BlindSpot<span>INVISIBLE WORK INTELLIGENCE</span></span></a>
         <div className="landing-status"><i /> INTELLIGENCE ENGINE <span>/</span> READY</div>
         <a className="landing-top-link" href="#method">THE METHOD <ArrowDownRight size={13} /></a>
       </header>
@@ -308,7 +308,7 @@ function Landing({ onStart, onExplore }: { onStart: () => void; onExplore: () =>
         <div className="landing-principle">“Don&apos;t automate the workaround.<br /><span>Discover and fix the reason it exists.”</span></div>
         <div className="landing-process">{[['01', 'RECONSTRUCT', 'Turn event data into the work as it happens.'], ['02', 'INVESTIGATE', 'Find friction, loops, and invisible effort.'], ['03', 'INTERVENE', 'Compare changes before you commit.']].map(([number, title, copy]) => <div className="process-step" key={number}><span>{number}</span><strong>{title}</strong><p>{copy}</p></div>)}</div>
       </section>
-      <footer className="landing-footer"><span>© SENTINEL INTELLIGENCE SYSTEMS</span><span>DEMONSTRATION ENVIRONMENT <i /></span></footer>
+      <footer className="landing-footer"><span>© BlindSpot INTELLIGENCE SYSTEMS</span><span>DEMONSTRATION ENVIRONMENT <i /></span></footer>
     </main>
   )
 }
@@ -349,7 +349,7 @@ function SetupView({ scenario, fileName, uploadEvents, mappings, error, busy, dr
           </div>
           <p className="privacy-note"><ShieldCheck size={13} /> No CSV content is sent to an external service. Metrics come directly from uploaded records.</p>
         </section>
-        <aside className="setup-aside"><div className="aside-orbit"><div /><div /><ScanLine size={19} /></div><div className="aside-label">THE SENTINEL PIPELINE</div><h3>From raw events<br />to informed action.</h3><div className="pipeline-steps">{[['01', 'Normalize', 'Map fields to a shared event model'], ['02', 'Reconstruct', 'Order observed actions by case'], ['03', 'Detect', 'Find repeat, wait, and switch patterns'], ['04', 'Recommend', 'Explain evidence-linked options'], ['05', 'Simulate', 'Explore editable assumptions']].map(([number, title, copy]) => <div className="pipeline-step" key={number}><span>{number}</span><div><strong>{title}</strong><small>{copy}</small></div><Check size={11} /></div>)}</div><div className="aside-foot"><ShieldCheck size={12} /> DETERMINISTIC · REPRODUCIBLE · TRANSPARENT</div></aside>
+        <aside className="setup-aside"><div className="aside-orbit"><div /><div /><ScanLine size={19} /></div><div className="aside-label">THE BlindSpot PIPELINE</div><h3>From raw events<br />to informed action.</h3><div className="pipeline-steps">{[['01', 'Normalize', 'Map fields to a shared event model'], ['02', 'Reconstruct', 'Order observed actions by case'], ['03', 'Detect', 'Find repeat, wait, and switch patterns'], ['04', 'Recommend', 'Explain evidence-linked options'], ['05', 'Simulate', 'Explore editable assumptions']].map(([number, title, copy]) => <div className="pipeline-step" key={number}><span>{number}</span><div><strong>{title}</strong><small>{copy}</small></div><Check size={11} /></div>)}</div><div className="aside-foot"><ShieldCheck size={12} /> DETERMINISTIC · REPRODUCIBLE · TRANSPARENT</div></aside>
       </div>
     </div>
   )
